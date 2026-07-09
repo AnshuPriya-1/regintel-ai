@@ -1,0 +1,50 @@
+"""POST /upload — accepts a SEBI PDF, runs the extraction pipeline, returns obligations."""
+from fastapi import APIRouter, File, HTTPException, UploadFile, status
+
+from app.models import store
+from app.schemas.obligation import UploadResponse
+from app.services import pdf_parser
+from app.services.extractor import extract_obligations
+from app.utils.exceptions import (
+    ExtractionParsingError,
+    GeminiServiceError,
+    InvalidFileError,
+    PdfExtractionError,
+)
+from app.utils.logger import get_logger
+
+logger = get_logger(__name__)
+router = APIRouter(tags=["upload"])
+
+
+@router.post("/upload", response_model=UploadResponse)
+async def upload_document(file: UploadFile = File(...)) -> UploadResponse:
+    """
+    Accepts a PDF regulatory document, extracts its text, sends it to Gemini
+    for compliance obligation extraction, and returns the structured result.
+    """
+    content = await file.read()
+
+    try:
+        pdf_parser.validate_pdf(file.filename or "", content)
+        text, page_count = pdf_parser.extract_text(content)
+        records, chunks_processed = extract_obligations(text, source_document=file.filename or "unknown.pdf")
+    except InvalidFileError as exc:
+        raise HTTPException(status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
+    except PdfExtractionError as exc:
+        raise HTTPException(status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(exc)) from exc
+    except GeminiServiceError as exc:
+        raise HTTPException(status.HTTP_502_BAD_GATEWAY, detail=str(exc)) from exc
+    except ExtractionParsingError as exc:
+        raise HTTPException(status.HTTP_502_BAD_GATEWAY, detail=str(exc)) from exc
+
+    store.save_obligations(records)
+    logger.info("Upload '%s' processed: %d obligation(s) extracted", file.filename, len(records))
+
+    return UploadResponse(
+        filename=file.filename or "unknown.pdf",
+        pages=page_count,
+        characters_extracted=len(text),
+        chunks_processed=chunks_processed,
+        obligations=records,
+    )

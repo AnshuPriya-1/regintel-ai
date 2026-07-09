@@ -1,0 +1,46 @@
+[
+  {
+    "id": "task1",
+    "title": "Conduct Annual VAPT",
+    "department": "IT Security",
+    "owner": "Rohan Verma",
+    "priority": "Critical",
+    "status": "In Progress",
+    "dueDate": "2024-08-15",
+    "progress": 45,
+    "evidence": false
+  },
+  {
+    "id": "task2",
+    "title": "Update Compliance Manual",
+    "department": "Compliance",
+    "owner": "Neha Sharma",
+    "priority": "High",
+    "status": "Review",
+    "dueDate": "2024-08-05",
+    "progress": 85,
+    "evidence": false
+  },
+  {
+    "id": "task3",
+    "title": "Quarterly Risk Assessment",
+    "department": "Risk Management",
+    "owner": "Arjun Malhotra",
+    "priority": "Medium",
+    "status": "To Do",
+    "dueDate": "2024-09-30",
+    "progress": 5,
+    "evidence": false
+  },
+  {
+    "id": "task4",
+    "title": "Vendor Due-Diligence Review",
+    "department": "Operations",
+    "owner": "Priya Nair",
+    "priority": "Medium",
+    "status": "Completed",
+    "dueDate": "2024-07-20",
+    "progress": 100,
+    "evidence": true
+  }
+]

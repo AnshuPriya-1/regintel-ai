@@ -1,0 +1,13 @@
+{
+  "oldTitle": "Master Circular - May 2024",
+  "newTitle": "Audit Clarification - July 2024",
+  "added": [
+    { "clause": "4.2.1", "text": "Conduct annual VAPT by CERT-In empanelled agencies within 60 days of policy renewal." }
+  ],
+  "modified": [
+    { "clause": "4.5.1", "old": "Maintain cybersecurity review annually.", "new": "Maintain cybersecurity review and policy audit annually, with board sign-off." }
+  ],
+  "removed": [
+    { "clause": "2.1.4", "text": "Manual KYC form submission accepted for legacy clients." }
+  ]
+}

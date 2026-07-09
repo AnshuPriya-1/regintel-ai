@@ -1,0 +1,26 @@
+{
+  "kpis": [
+    { "id": "k1", "label": "Compliance Score", "value": 92, "suffix": "%", "trend": 8, "trendLabel": "vs last month", "type": "ring" },
+    { "id": "k2", "label": "Total Obligations", "value": 128, "trend": 12, "trendLabel": "new this month", "type": "sparkline" },
+    { "id": "k3", "label": "Pending Tasks", "value": 17, "trend": 3, "trendLabel": "due soon", "type": "sparkline" },
+    { "id": "k4", "label": "High Risk Issues", "value": 5, "trend": 2, "trendLabel": "from last week", "type": "sparkline" }
+  ],
+  "complianceTrend": [
+    { "month": "Jan", "score": 78, "risk": 30 },
+    { "month": "Feb", "score": 80, "risk": 28 },
+    { "month": "Mar", "score": 83, "risk": 26 },
+    { "month": "Apr", "score": 85, "risk": 24 },
+    { "month": "May", "score": 88, "risk": 20 },
+    { "month": "Jun", "score": 90, "risk": 18 },
+    { "month": "Jul", "score": 92, "risk": 14 }
+  ],
+  "riskDistribution": [
+    { "name": "High", "value": 18, "color": "#EF4444" },
+    { "name": "Medium", "value": 42, "color": "#F59E0B" },
+    { "name": "Low", "value": 68, "color": "#22C55E" }
+  ],
+  "aiInsights": [
+    { "id": "i1", "type": "detection", "title": "6 new obligations detected", "detail": "Extracted from the latest circular upload.", "severity": "Medium" },
+    { "id": "i2", "type": "risk", "title": "IT Security has the highest risk exposure", "detail": "12 pending obligations with average age of 34 days.", "severity": "High" }
+  ]
+}

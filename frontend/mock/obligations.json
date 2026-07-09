@@ -1,0 +1,72 @@
+[
+  {
+    "id": "ob-mock-1",
+    "clause": "4.2",
+    "regulation": "Cybersecurity Framework",
+    "department": "IT Security",
+    "action": "Conduct Annual VAPT",
+    "deadline": "Annual",
+    "frequency": "Annual",
+    "evidence": "VAPT Report",
+    "penalty": "Regulatory Action",
+    "risk": "High",
+    "sourceDocument": "Cybersecurity Framework.pdf",
+    "extractedAt": "2024-05-10T09:00:00Z"
+  },
+  {
+    "id": "ob-mock-2",
+    "clause": "4.2.2",
+    "regulation": "Cybersecurity Framework",
+    "department": "IT Security",
+    "action": "Report material cybersecurity incidents to SEBI within 6 hours of detection",
+    "deadline": "Within 6 hours",
+    "frequency": "Per incident",
+    "evidence": "Incident Log, SEBI Acknowledgement",
+    "penalty": "Regulatory Action",
+    "risk": "High",
+    "sourceDocument": "Cybersecurity Framework.pdf",
+    "extractedAt": "2024-05-10T09:00:05Z"
+  },
+  {
+    "id": "ob-mock-3",
+    "clause": "2.1",
+    "regulation": "SEBI Circular - KYC Norms",
+    "department": "Compliance",
+    "action": "Maintain updated client KYC records with periodic re-verification",
+    "deadline": "2024-12-31",
+    "frequency": "Annual",
+    "evidence": "KYC Register, Re-verification Log",
+    "penalty": "Monetary Penalty",
+    "risk": "Medium",
+    "sourceDocument": "SEBI Circular - KYC Norms.pdf",
+    "extractedAt": "2024-05-05T11:20:00Z"
+  },
+  {
+    "id": "ob-mock-4",
+    "clause": "6.1",
+    "regulation": "Master Circular - Investment Advisers",
+    "department": "Risk Management",
+    "action": "Conduct board review of the risk management policy",
+    "deadline": "Annually",
+    "frequency": "Annual",
+    "evidence": "Board Minutes",
+    "penalty": "Regulatory Action",
+    "risk": "Low",
+    "sourceDocument": "Master Circular - Investment Advisers.pdf",
+    "extractedAt": "2024-05-12T08:15:00Z"
+  },
+  {
+    "id": "ob-mock-5",
+    "clause": "3.1.4",
+    "regulation": "Cybersecurity Framework",
+    "department": "IT Security",
+    "action": "Perform encrypted data backups with RPO not exceeding 24 hours",
+    "deadline": "Daily",
+    "frequency": "Daily",
+    "evidence": "Backup Logs, Encryption Certificate",
+    "penalty": "Regulatory Action",
+    "risk": "Medium",
+    "sourceDocument": "Cybersecurity Framework.pdf",
+    "extractedAt": "2024-05-10T09:00:12Z"
+  }
+]

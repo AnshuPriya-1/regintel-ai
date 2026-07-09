@@ -1,0 +1,165 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --background: #F8FAFC;
+  --surface: #FFFFFF;
+  --surface-muted: #F1F5F9;
+  --border: #E2E8F0;
+  --border-soft: #EDF2F7;
+
+  --foreground: #0F172A;
+  --foreground-muted: #64748B;
+  --foreground-subtle: #94A3B8;
+
+  --primary: #1E3A8A;
+  --primary-hover: #1B3378;
+  --primary-foreground: #FFFFFF;
+  --primary-tint: #EEF2FF;
+
+  --secondary: #0F172A;
+  --accent: #06B6D4;
+  --accent-tint: #ECFEFF;
+
+  --success: #22C55E;
+  --success-tint: #F0FDF4;
+  --warning: #F59E0B;
+  --warning-tint: #FFFBEB;
+  --danger: #EF4444;
+  --danger-tint: #FEF2F2;
+
+  --ring: #1E3A8A;
+  --radius: 14px;
+  --radius-sm: 10px;
+  --radius-lg: 20px;
+
+  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
+  --shadow-card: 0 1px 3px rgba(15, 23, 42, 0.06), 0 8px 24px -12px rgba(15, 23, 42, 0.10);
+  --shadow-elevated: 0 4px 6px -1px rgba(15, 23, 42, 0.06), 0 20px 40px -16px rgba(15, 23, 42, 0.16);
+}
+
+.dark {
+  --background: #0A0F1C;
+  --surface: #111827;
+  --surface-muted: #0F1729;
+  --border: #1F2937;
+  --border-soft: #1A2436;
+
+  --foreground: #F1F5F9;
+  --foreground-muted: #94A3B8;
+  --foreground-subtle: #64748B;
+
+  --primary: #3B5BC9;
+  --primary-hover: #4A69D6;
+  --primary-foreground: #FFFFFF;
+  --primary-tint: #16213D;
+
+  --secondary: #E2E8F0;
+  --accent: #22D3EE;
+  --accent-tint: #0B2530;
+
+  --success: #34D399;
+  --success-tint: #0B2A1E;
+  --warning: #FBBF24;
+  --warning-tint: #2E2308;
+  --danger: #F87171;
+  --danger-tint: #2E1212;
+
+  --ring: #3B5BC9;
+
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.3), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+  --shadow-elevated: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 20px 40px -16px rgba(0, 0, 0, 0.6);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-border: var(--border);
+  --color-border-soft: var(--border-soft);
+  --color-foreground: var(--foreground);
+  --color-foreground-muted: var(--foreground-muted);
+  --color-foreground-subtle: var(--foreground-subtle);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-tint: var(--primary-tint);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-accent-tint: var(--accent-tint);
+  --color-success: var(--success);
+  --color-success-tint: var(--success-tint);
+  --color-warning: var(--warning);
+  --color-warning-tint: var(--warning-tint);
+  --color-danger: var(--danger);
+  --color-danger-tint: var(--danger-tint);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "cv11", "ss01";
+}
+
+h1, h2, h3, h4, h5, .font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--foreground-subtle);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Signature element: AI confidence ring gradient, used wherever the system
+   is presenting an AI-derived inference rather than raw/human data */
+.ai-ring-gradient {
+  stroke: url(#ai-ring-gradient-def);
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
