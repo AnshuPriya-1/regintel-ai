@@ -39,6 +39,15 @@ async def upload_document(file: UploadFile = File(...)) -> UploadResponse:
         raise HTTPException(status.HTTP_502_BAD_GATEWAY, detail=str(exc)) from exc
 
     store.save_obligations(records)
+
+    version1 = store.get_version(1)
+
+    # If Version 1 is empty, save there.
+    if not version1 or not version1.get("obligations"):
+        store.save_version(1, records)
+    else:
+        # Otherwise overwrite Version 2.
+        store.save_version(2, records)
     logger.info("Upload '%s' processed: %d obligation(s) extracted", file.filename, len(records))
 
     return UploadResponse(

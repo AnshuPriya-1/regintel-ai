@@ -232,7 +232,7 @@ export const kpis: Kpi[] = [
 ];
 
 export const currentUser = {
-  name: "Aarohi Mehta",
+  name: "AS Priya",
   role: "Compliance Officer",
   email: "aarohi.mehta@finsecure.com",
   workspace: "FinSecure Advisors",

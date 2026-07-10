@@ -1,14 +1,19 @@
 import type { ChangeDetection } from "@/types/change";
-import mockChanges from "@/mock/changes.json";
+
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 /**
- * Returns the current regulatory change-detection comparison.
- *
- * No backend change-detection endpoint exists yet. This resolves from
- * bundled mock data so consuming pages have a stable shape to code against.
- * Once a backend route such as GET /changes exists, only this function needs
- * to change to an `apiFetch<ChangeDetection>("/changes")` call.
+ * Fetches the latest change detection results from the backend.
  */
 export async function getChangeDetection(): Promise<ChangeDetection> {
-  return mockChanges as ChangeDetection;
+  const response = await fetch(`${API_URL}/changes`);
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch change detection data");
+  }
+
+  const data: ChangeDetection = await response.json();
+
+  return data;
 }

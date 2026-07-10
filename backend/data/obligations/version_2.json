@@ -1,0 +1,15 @@
+{
+  "document": "Master Circular",
+  "version": "2",
+  "uploaded_at": "2026-07-10",
+  "obligations": [
+    {
+      "clause_number": "1",
+      "action_required": "Submit annual report"
+    },
+    {
+      "clause_number": "2",
+      "action_required": "Maintain register"
+    }
+  ]
+}
