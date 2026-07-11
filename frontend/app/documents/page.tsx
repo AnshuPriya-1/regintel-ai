@@ -1,5 +1,6 @@
 "use client";
 import * as React from "react";
+import { Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
@@ -18,7 +19,7 @@ import type { UploadResponse } from "@/services/upload";
 
 const categories = ["All Documents", "Master Circulars", "Frameworks", "Clarifications", "Guidelines"];
 
-export default function DocumentsPage() {
+function DocumentsContent() {
   const [tab, setTab] = React.useState("All Documents");
   const [search, setSearch] = React.useState("");
   const [lastUpload, setLastUpload] = React.useState<UploadResponse | null>(null);
@@ -159,5 +160,12 @@ export default function DocumentsPage() {
         </div>
       )}
     </div>
+  );
+}
+export default function DocumentsPage() {
+  return (
+    <Suspense fallback={<div className="p-6">Loading...</div>}>
+      <DocumentsContent />
+    </Suspense>
   );
 }
