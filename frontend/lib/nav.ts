@@ -1,12 +1,14 @@
 import {
   LayoutDashboard, FileText, ShieldCheck, Sparkles, GitCompareArrows, ListChecks,
   Building2, AlertTriangle, History, FileBarChart, LineChart, CalendarClock, Bell, Settings,
+  MessageSquareText,
 } from "lucide-react";
 
 export const navItems = [
   { label: "Dashboard", href: "/", icon: LayoutDashboard },
   { label: "Documents", href: "/documents", icon: FileText },
   { label: "Compliance Obligations", href: "/compliance-obligations", icon: ShieldCheck },
+  { label: "AI Assistant", href: "/assistant", icon: MessageSquareText },
   { label: "AI Insights", href: "/ai-insights", icon: Sparkles },
   { label: "Change Detection", href: "/change-detection", icon: GitCompareArrows },
   { label: "Workflow Tasks", href: "/workflow-tasks", icon: ListChecks },

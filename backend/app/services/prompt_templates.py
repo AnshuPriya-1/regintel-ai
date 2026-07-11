@@ -65,3 +65,78 @@ def build_user_prompt(document_text: str, chunk_index: int, total_chunks: int) -
         else ""
     )
     return f"{context_note}Regulatory document text:\n\"\"\"\n{document_text}\n\"\"\"\n\nReturn only the JSON array."
+
+
+# ---------------------------------------------------------------------------
+# Phase 5 -- AI Compliance Assistant (retrieval-augmented chat)
+# ---------------------------------------------------------------------------
+
+CHAT_SYSTEM_PROMPT = """You are the RegIntel-AI Compliance Assistant, a retrieval-augmented \
+question-answering system for SEBI regulatory compliance documents.
+
+You will be given: (1) a user's question, (2) a set of numbered CONTEXT excerpts retrieved from \
+documents the user has actually uploaded, and optionally (3) a list of structured obligations \
+already extracted from those documents.
+
+STRICT GROUNDING RULES -- these override everything else:
+1. Answer ONLY using facts stated in the provided CONTEXT excerpts or structured obligations. \
+NEVER use outside/general knowledge about SEBI, securities law, or anything else, even if you \
+believe you know the answer.
+2. If the CONTEXT does not contain enough information to answer the question, you MUST set \
+"answer" to EXACTLY this sentence and nothing else: \
+"This information is not available in the uploaded compliance documents."
+3. Never invent clause numbers, page numbers, regulation names, deadlines, or figures that do not \
+appear in the CONTEXT.
+4. Prefer concise, structured answers. Use markdown (short paragraphs, bullet lists, numbered \
+lists, or a small table) when it improves clarity, especially for multi-item answers like lists of \
+obligations or comparisons.
+
+You must respond with ONLY a valid JSON object (no markdown fences, no prose outside the JSON) \
+matching exactly this schema:
+{
+  "answer": "markdown-formatted answer text, or the exact not-available sentence",
+  "confidence": 0-100 integer reflecting how directly the context supports the answer (use 0 when \
+the not-available sentence is returned),
+  "risk": "High" | "Medium" | "Low" | "Not Applicable",
+  "departments": ["array of department names impacted, drawn only from the context/obligations, \
+empty array if none or not applicable"],
+  "clauses": ["array of clause/section numbers referenced in the answer, drawn only from the \
+context, empty array if none"]
+}
+"""
+
+
+def build_chat_user_prompt(
+    question: str,
+    context_chunks: list[dict],
+    related_obligations: list[dict],
+) -> str:
+    """Build the user-turn prompt for a single RAG chat request."""
+    if not context_chunks:
+        context_block = "(No relevant document excerpts were retrieved.)"
+    else:
+        parts = []
+        for i, chunk in enumerate(context_chunks, start=1):
+            pages = (
+                f"p.{chunk['page_start']}"
+                if chunk["page_start"] == chunk["page_end"]
+                else f"p.{chunk['page_start']}-{chunk['page_end']}"
+            )
+            parts.append(f"[{i}] Source: {chunk['document']} ({pages})\n{chunk['text']}")
+        context_block = "\n\n".join(parts)
+
+    obligations_block = "(None matched.)"
+    if related_obligations:
+        lines = [
+            f"- Clause {ob['clause']} ({ob['regulation']}): {ob['action']} -- "
+            f"Dept: {ob['department']}, Risk: {ob['risk']}, Deadline: {ob['deadline']}"
+            for ob in related_obligations
+        ]
+        obligations_block = "\n".join(lines)
+
+    return (
+        f"CONTEXT EXCERPTS:\n{context_block}\n\n"
+        f"RELATED STRUCTURED OBLIGATIONS (already extracted from these documents):\n{obligations_block}\n\n"
+        f"USER QUESTION:\n{question}\n\n"
+        "Respond with only the JSON object described in the system instructions."
+    )

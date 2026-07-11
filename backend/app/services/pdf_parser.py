@@ -49,6 +49,21 @@ def extract_text(content: bytes) -> tuple[str, int]:
     return full_text, page_count
 
 
+def extract_pages(content: bytes) -> list[str]:
+    """
+    Extract text per page (not joined), used by the AI Compliance Assistant
+    (Phase 5) to build page-aware chunks so retrieved answers can cite a
+    page number. `extract_text` above remains unchanged and is still what
+    the obligation-extraction pipeline uses.
+    """
+    try:
+        with fitz.open(stream=content, filetype="pdf") as doc:
+            return [page.get_text("text") for page in doc]
+    except Exception as exc:
+        logger.exception("Failed to extract per-page text from PDF")
+        raise PdfExtractionError("Could not extract text from the PDF. The file may be corrupted or scanned/image-only.") from exc
+
+
 def chunk_text(text: str, chunk_size: int | None = None, overlap: int | None = None) -> list[str]:
     """
     Split long text into overlapping chunks so each fits comfortably within a

@@ -1,9 +1,9 @@
 """POST /upload — accepts a SEBI PDF, runs the extraction pipeline, returns obligations."""
 from fastapi import APIRouter, File, HTTPException, UploadFile, status
 
-from app.models import store
+from app.models import document_store, store
 from app.schemas.obligation import UploadResponse
-from app.services import pdf_parser
+from app.services import pdf_parser, retriever
 from app.services.extractor import extract_obligations
 from app.utils.exceptions import (
     ExtractionParsingError,
@@ -37,6 +37,18 @@ async def upload_document(file: UploadFile = File(...)) -> UploadResponse:
         raise HTTPException(status.HTTP_502_BAD_GATEWAY, detail=str(exc)) from exc
     except ExtractionParsingError as exc:
         raise HTTPException(status.HTTP_502_BAD_GATEWAY, detail=str(exc)) from exc
+
+    # Index page-aware chunks for the AI Compliance Assistant (Phase 5) so
+    # this document becomes searchable/retrievable for grounded Q&A. This is
+    # additive: it does not affect the obligation-extraction response below.
+    try:
+        pages = pdf_parser.extract_pages(content)
+        chunks = retriever.build_page_aware_chunks(pages)
+        for chunk in chunks:
+            chunk["document"] = file.filename or "unknown.pdf"
+        document_store.save_document_chunks(file.filename or "unknown.pdf", chunks)
+    except Exception:  # pragma: no cover - never block the extraction response
+        logger.exception("Failed to index document chunks for the AI Assistant; obligations were still saved.")
 
     store.save_obligations(records)
 
