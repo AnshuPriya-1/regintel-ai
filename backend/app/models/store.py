@@ -18,7 +18,7 @@ VERSION2_FILE = OBLIGATIONS_DIR / "version_2.json"
 
 def _write(path: Path, data):
     with open(path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=4)
+        json.dump(data, f, indent=4, default=str)
 
 
 def _read(path: Path):

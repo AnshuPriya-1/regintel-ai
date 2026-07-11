@@ -32,12 +32,9 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="font-display text-2xl font-bold text-foreground">Welcome back, {currentUser.name.split(" ")[0]}! 👋</h1>
-          <p className="mt-1 text-sm text-foreground-muted">Here&apos;s your compliance overview for today.</p>
-        </div>
-        <Button size="lg"><Upload className="h-4 w-4" /> Upload Circular</Button>
+      <div>
+        <h1 className="font-display text-2xl font-bold text-foreground">Welcome back, {currentUser.name.split(" ")[0]}! 👋</h1>
+        <p className="mt-1 text-sm text-foreground-muted">Here&apos;s your compliance overview for today.</p>
       </div>
 
       {!hasData ? (

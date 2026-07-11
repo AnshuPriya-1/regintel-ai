@@ -36,7 +36,7 @@ export default function ChangeDetectionPage() {
         const data = await getChangeDetection();
         setChangeDetection(data);
       } catch (err) {
-        console.error(err);
+        console.warn("Could not load change detection:", err);
       } finally {
         setLoading(false);
       }
