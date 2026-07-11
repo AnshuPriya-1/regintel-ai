@@ -5,8 +5,9 @@ import { motion } from "framer-motion";
 import { User2 } from "lucide-react";
 import { Badge, riskVariant } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { tasks as seedTasks } from "@/lib/mock-data";
+import { tasks as mockTasks } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
+import type { Task } from "@/types/task";
 
 const columns: { key: string; label: string }[] = [
   { key: "To Do", label: "To Do" },
@@ -15,14 +16,24 @@ const columns: { key: string; label: string }[] = [
   { key: "Completed", label: "Completed" },
 ];
 
-export function KanbanBoard() {
-  const [tasks, setTasks] = React.useState(seedTasks);
+interface KanbanBoardProps {
+  initialTasks?: Task[];
+  onStatusChange?: (id: string, status: Task["status"]) => void;
+}
+
+export function KanbanBoard({ initialTasks, onStatusChange }: KanbanBoardProps) {
+  const [tasks, setTasks] = React.useState(initialTasks ?? mockTasks);
+
+  React.useEffect(() => {
+    if (initialTasks) setTasks(initialTasks);
+  }, [initialTasks]);
   const [dragId, setDragId] = React.useState<string | null>(null);
   const [overCol, setOverCol] = React.useState<string | null>(null);
 
   function drop(status: string) {
     if (!dragId) return;
     setTasks((ts) => ts.map((t) => (t.id === dragId ? { ...t, status: status as typeof t.status } : t)));
+    onStatusChange?.(dragId, status as Task["status"]);
     setDragId(null);
     setOverCol(null);
   }

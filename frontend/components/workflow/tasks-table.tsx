@@ -3,9 +3,11 @@ import { DueDateBadge } from "@/components/shared/due-date-badge";
 import * as React from "react";
 import { Badge, riskVariant, statusVariant } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { tasks } from "@/lib/mock-data";
+import { tasks as mockTasks } from "@/lib/mock-data";
+import type { Task } from "@/types/task";
 
-export function TasksTable() {
+export function TasksTable({ tasks: propTasks }: { tasks?: Task[] } = {}) {
+  const tasks = propTasks ?? mockTasks;
   return (
     <div className="overflow-hidden rounded-2xl border border-border bg-surface">
       <table className="w-full text-sm">

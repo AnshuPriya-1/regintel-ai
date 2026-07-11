@@ -5,6 +5,7 @@ from app.models import document_store, store
 from app.schemas.obligation import UploadResponse
 from app.services import pdf_parser, retriever
 from app.services.extractor import extract_obligations
+from app.services.workflow_generator import generate_tasks_from_obligations
 from app.utils.exceptions import (
     ExtractionParsingError,
     GeminiServiceError,
@@ -61,6 +62,14 @@ async def upload_document(file: UploadFile = File(...)) -> UploadResponse:
         # Otherwise overwrite Version 2.
         store.save_version(2, records)
     logger.info("Upload '%s' processed: %d obligation(s) extracted", file.filename, len(records))
+
+    # Turn the newly extracted obligations into workflow tasks (Phase 5).
+    # Additive and best-effort: never block the extraction response below.
+    try:
+        new_tasks, _ = generate_tasks_from_obligations([r.model_dump() for r in records])
+        logger.info("Generated %d workflow task(s) for '%s'", len(new_tasks), file.filename)
+    except Exception:  # pragma: no cover - never block the extraction response
+        logger.exception("Failed to auto-generate workflow tasks; obligations were still saved.")
 
     return UploadResponse(
         filename=file.filename or "unknown.pdf",

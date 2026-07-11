@@ -2,12 +2,14 @@
 import * as React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { tasks } from "@/lib/mock-data";
+import { tasks as mockTasks } from "@/lib/mock-data";
+import type { Task } from "@/types/task";
 import { cn } from "@/lib/utils";
 
 const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-export function CalendarView() {
+export function CalendarView({ tasks: propTasks }: { tasks?: Task[] } = {}) {
+  const tasks = propTasks ?? mockTasks;
   const [cursor, setCursor] = React.useState(new Date());
   const year = cursor.getFullYear();
   const month = cursor.getMonth();

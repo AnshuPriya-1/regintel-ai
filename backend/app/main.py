@@ -3,7 +3,7 @@ from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
-from app.routes import chat, obligations, upload
+from app.routes import chat, obligations, tasks, upload
 from app.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -25,6 +25,7 @@ app.add_middleware(
 app.include_router(upload.router)
 app.include_router(obligations.router)
 app.include_router(chat.router)
+app.include_router(tasks.router)
 
 
 @app.get("/", tags=["health"])
